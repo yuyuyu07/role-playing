@@ -11,21 +11,30 @@ with st.sidebar:  # 侧边栏 布局
     # +------------------------------------------------------------------+
     # |                            角色扮演                               |
     # +------------------------------------------------------------------+
-    file_path = st.text_input(  # 返回 文字
-        "请输入角色文件:",  # 输入框的标签
-        )  # 用户打开应用时，输入框里会预先显示这个值。
-    if not file_path:  # 如果 点击按钮 并没有 输入 AIP密钥
-        st.info("请输入角色文件")  # 提醒 提示
+    # 文件上传器
+    uploaded_file = st.file_uploader("上传文件文档，文档类型（md）",
+                                  type=["md"])  # 文件上传 器 # 返回 UploaderFile类的对象(实例)
+
+    if not uploaded_file:  # 如果 点击按钮 并没有 输入 AIP密钥
+        st.info("请上传角色文件")  # 提醒 提示
         st.stop()  # 终止 # 类似break
 
-    f = open(file_path, "r", encoding="utf-8")    # open(文件路径，模式,编码方式)
-    系统= f.read()
+    file_content = uploaded_file.read()  # 这个.read() 。返回bytes的内容（二进制数据）
+    temp_file_path = "temp.md"          # 保存 临时文件
+    # 创建&写入 二进制内容 ——> 临时文件（"temp.pdf"）
+    with open(temp_file_path, "wb") as temp_file:  # 文件不存在时自动创建 # 二进制不用编码方式
+        temp_file.write(file_content)  # 把二进制内容写入临时文件中
+    # 读临时文件
+    with open(temp_file_path, "r", encoding="utf8") as f:  # 获取txt文件
+        系统 = f.read()
 
-    st.text(f"{os.path.basename(file_path)}")  # 显示文件名
+    st.text(f"{uploaded_file.name}")  # 显示文件名
 
     # +------------------------------------------------------------------+
     # |                            清除聊天记录按钮                         |
     # +------------------------------------------------------------------+
+
+
     # 清除聊天记录按钮
     if st.button("清除聊天记录"):
         st.session_state["messages"] = [{"role": "system", "content": 系统}]
@@ -102,5 +111,3 @@ if prompt:  # 检查用户是否输入了内容
     st.session_state["messages"].append({"role": "assistant", "content": response["content"]})  # 将 AI 助手的消息添加到会话状态的 "messages" 列表中
     # 显示 AI内容
     st.chat_message("assistant").write(response["content"])  # 在聊天界面上显示 AI 助手的消息
-
-# streamlit run "E:\Code Project\python-project\role-playing\streamlit_role_playing.py"

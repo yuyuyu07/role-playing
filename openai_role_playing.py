@@ -21,10 +21,3 @@ def get_gemini_response(api_key,messages_history: list):
     生成内容 = response.choices[0].message.content  # 响应对象.选项数组[0].消息.内容
 
     return {"role": AI助手, "content": 生成内容}  # 返回AI的回复
-
-
-
-# 测试
-# messages_history = {"role":"user","content": "你好"}
-# AI聊天字典 = get_gemini_response("AIzaSyD_gl3lcKnfue6BEVJ_9uLUJQtAlEWcYS8",messages_history)
-# print(AI聊天字典)
