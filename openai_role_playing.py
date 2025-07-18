@@ -11,7 +11,7 @@ def get_gemini_response(api_key,messages_history: list):
 
     # 调用.chat.completions.create()方法
     response = client.chat.completions.create(
-        model="gemini-2.5-flash-preview-05-20",  # 使用传入的模型名称
+        model="gemini-2.0-flash-lite",  # 使用传入的模型名称
         messages=messages_history,  # 使用传入的聊天列表
         temperature=0.8,  # 温度参数，控制生成文本的随机性
     )
