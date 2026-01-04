@@ -1,3 +1,4 @@
+# streamlit_role_playing.py
 import streamlit as st  # 导入Streamlit库，用于创建Web应用界面
 from openai_role_playing import get_gemini_response  # 从我们创建的 openai_对话.py 文件中导入函数
 import os
@@ -6,6 +7,8 @@ import os
 with st.sidebar:  # 侧边栏 布局
     st_api_key = st.text_input("请输入API密钥:", type="password")  # 密码 输入框 # 返回 文字
     st.markdown("[API获取地址](https://ai.google.dev/gemini-api/docs?hl=zh-cn)")
+    st_gemini_model = st.text_input("当前使用模型:", value="gemini-3-flash-preview")  # 密码 输入框 # 返回 文字
+    st.markdown("[模型获取地址](https://ai.google.dev/gemini-api/docs/models?hl=zh-cn)")
     st.markdown("---")
 
     # +------------------------------------------------------------------+
@@ -102,7 +105,7 @@ if prompt:  # 检查用户是否输入了内容
     # +------------------------------------------------------------------+
     with st.spinner("AI 正在思考中..."):  # 显示加载提示
         # 调用 get_gemini_response 函数
-        response = get_gemini_response(st_api_key,messages_history)  # 传入当前的聊天历史
+        response = get_gemini_response(st_api_key,messages_history,st_gemini_model)  # 传入当前的聊天历史
 
     # +------------------------------------------------------------------+
     # |                          将AI消息添加到历史中                        |

@@ -1,8 +1,9 @@
+# openai_role_playing.py
 import os  # 操作系统交互接口的库
 from openai import OpenAI  # 从openai库里导入OpenAI类
 
 # --- 创建函数 ---
-def get_gemini_response(api_key,messages_history: list):
+def get_gemini_response(api_key,messages_history: list,gemini_model):
     # 创建OpenAI实例
     client = OpenAI(
         api_key=api_key,  # 使用传入的API密钥
@@ -11,7 +12,8 @@ def get_gemini_response(api_key,messages_history: list):
 
     # 调用.chat.completions.create()方法
     response = client.chat.completions.create(
-        model="gemini-2.0-flash-lite",  # 使用传入的模型名称
+        # model="gemini-2.5-flash-preview-09-2025",  # 使用传入的模型名称
+        model=gemini_model,  # 使用传入的模型名称
         messages=messages_history,  # 使用传入的聊天列表
         temperature=0.8,  # 温度参数，控制生成文本的随机性
     )
